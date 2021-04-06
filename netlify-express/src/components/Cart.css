@@ -1,0 +1,12 @@
+#cart {
+    padding: 15px 0;
+}
+
+#empty-cart {
+    background-color: darkgreen;
+    border: none;
+    color: #FFF;
+    font-size: 14px;
+    padding: 5px 14px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,39 @@
+.headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.showcase {
+    display: flex;
+    justify-content: space-between;
+}
+
+.servings > button, #post-rating {
+    background-color: darkgreen;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 4px 12px;
+}
+
+#serving-count {
+    margin: 0px 6px;
+}
+
+#add-to-cart {
+    background-color: darkgreen;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 3px 10px;
+}
+
+#rating-label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0 8px;
+}
+
+#ratings {
+    font-size: 18px;
+}

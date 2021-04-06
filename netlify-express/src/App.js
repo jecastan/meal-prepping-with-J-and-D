@@ -1,102 +1,70 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import './App.css';
+import Header from './components/Header.js';
+import Recipe from './components/Recipe.js';
+import Cart from './components/Cart.js';
+import RecipeList from './components/RecipeList.js';
+import About from './pages/About.js';
 
-const AnotherPage = () => <h1>Another Page</h1>;
-const NotFound = () => <h1>404 Not Found</h1>;
-class Home extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
-
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cart: [],
+      cartIngredients: []
+    };
   }
 
-  callApi = async () => {
-    const response = await fetch('/.netlify/functions/server/api/hello');
-    const body = await response.json();
+  updateCart = (items) => {
+    const cartIngredients = this.state.cartIngredients;
 
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  };
-
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/.netlify/functions/server/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
+    for (const item in items) {
+      cartIngredients[item] = items[item];
+    }
+    
+    const newCart = [...this.state.cart];
+    cartIngredients.forEach( (item) => {
+      const exists = newCart.some(el => el.ingredient === item.ingredient);
+      if (exists === true) {
+        const id = newCart.findIndex(el => el.ingredient === item.ingredient);
+        newCart[id].amount += item.amount;
+      }
+      else {
+      newCart.push({ingredient: item.ingredient, amount:item.amount});
+      }
     });
-    const body = await response.text();
+    this.setState({cart: newCart});
+    this.setState({cartIngredients: []});
+  }
 
-    this.setState({ responseToPost: body });
-  };
+  emptyCart = () => this.setState({ cart: [] });
 
-  render() {
+  render(){
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>{this.state.response}</p>
-          <form onSubmit={this.handleSubmit}>
-            <p>
-              <strong>Post to Server:</strong>
-            </p>
-            <input
-              type="text"
-              value={this.state.post}
-              onChange={e => this.setState({ post: e.target.value })}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          <p>{this.state.responseToPost}</p>
-        </header>
-      </div>
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          <Route exact path='/'>
+            <main id='browse'>
+              <RecipeList />
+              <Cart cart={this.state.cart} emptyCart={this.emptyCart} />
+            </main>
+          </Route>
+          <Route path='/recipe'>
+            <main id='browse'>
+              <Recipe updateCart={this.updateCart} />
+              <Cart cart={this.state.cart} emptyCart={this.emptyCart} />
+            </main>
+          </Route>
+          <Route exact path='/about'>
+            <About />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
-
-const App = () => (
-  <Router>
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/another-page/">Another Page</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/another-page/" component={AnotherPage} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
-  </Router>
-);
 
 export default App;

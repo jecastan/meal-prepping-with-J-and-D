@@ -1,0 +1,9 @@
+.link-collection > a {
+    color: #BC4524;
+    line-height: 26px;
+}
+
+.link-collection {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
