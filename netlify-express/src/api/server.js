@@ -34,6 +34,20 @@ const postRating = async (id, rating) => {
   )
 }
 
+const createRecipe = async (title) => {
+  return new Recipe({
+    title: title,
+    desc: 'desc',
+    picture: 'picture',
+    ratings: [1, 2],
+    servings: 1,
+    ingredients: [
+      {ingredient: 'ingredient 1', amount: 1}
+    ],
+    instructions: ['instruction 1']
+  }).save()
+}
+
 router.get('/api/getRecipes', async (req, res) => {
 
   let recipes = await getRecipes()
@@ -55,6 +69,13 @@ router.post('/api/postRating', async (req, res) => {
 
   const ratings = await postRating(id, rating)
   res.send()
+})
+
+router.post('/api/newRecipe', async (req, res) => {
+  const title = req.body.title
+  // console.log(title);
+  const recipe = await createRecipe(title)
+  res.json(recipe)
 })
 
 app.use('/.netlify/functions/server', router); // path must route to lambda

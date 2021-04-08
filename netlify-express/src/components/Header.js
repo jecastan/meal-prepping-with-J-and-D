@@ -7,6 +7,7 @@ function Header() {
       <h1>Grocery Prep</h1>
       <nav>
         <Link to='/'>Home</Link>
+        <Link to='/newRecipe'>New Recipe</Link>
         <Link to='/about'>About the Chefs</Link>
       </nav>
     </header>

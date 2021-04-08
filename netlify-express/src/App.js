@@ -6,6 +6,7 @@ import Header from './components/Header.js';
 import Recipe from './components/Recipe.js';
 import Cart from './components/Cart.js';
 import RecipeList from './components/RecipeList.js';
+import NewRecipe from './components/NewRecipe.js';
 import About from './pages/About.js';
 
 class App extends React.Component {
@@ -55,6 +56,12 @@ class App extends React.Component {
           <Route path='/recipe'>
             <main id='browse'>
               <Recipe updateCart={this.updateCart} />
+              <Cart cart={this.state.cart} emptyCart={this.emptyCart} />
+            </main>
+          </Route>
+          <Route exact path='/newRecipe'>
+            <main id='browse'>
+              <NewRecipe />
               <Cart cart={this.state.cart} emptyCart={this.emptyCart} />
             </main>
           </Route>

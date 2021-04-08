@@ -1,0 +1,17 @@
+.headline2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.showcase2 {
+    display: flex;
+    justify-content: center;
+}
+
+.showcase > button {
+    background-color: darkgreen;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 4px 12px;
+}
