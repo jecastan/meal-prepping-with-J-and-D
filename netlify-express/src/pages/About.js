@@ -6,7 +6,7 @@ function About() {
     return (
         <main id="about">
             <h1>About the Chefs</h1>
-            <p>Jesse and Daly are world class Keto chefs sharing their recipes with the world!</p>
+            <p>Jesse and Daly are semi-competent chefs sharing their recipes with the world!</p>
             <img src="../imgs/The_Chefs.jpg" height='500px' alt={'The Chefs'}></img>
         </main>
     )

@@ -34,18 +34,28 @@ const postRating = async (id, rating) => {
   )
 }
 
-const createRecipe = async (title) => {
-  return new Recipe({
-    title: title,
-    desc: 'desc',
-    picture: 'picture',
-    ratings: [1, 2],
-    servings: 1,
-    ingredients: [
-      {ingredient: 'ingredient 1', amount: 1}
-    ],
-    instructions: ['instruction 1']
-  }).save()
+const createRecipe = async (id, title, desc) => {
+  if (id) {
+    console.log(desc)
+    return await Recipe.findOneAndUpdate({ _id: id }, {
+      title: title,
+      desc: desc
+    }
+    )
+  }
+  else {
+    return new Recipe({
+      title: title,
+      desc: desc,
+      picture: 'picture',
+      ratings: [1, 2],
+      servings: 1,
+      ingredients: [
+        {ingredient: 'ingredient 1', amount: 1}
+      ],
+      instructions: ['instruction 1']
+    }).save()
+  }
 }
 
 router.get('/api/getRecipes', async (req, res) => {
@@ -72,9 +82,11 @@ router.post('/api/postRating', async (req, res) => {
 })
 
 router.post('/api/newRecipe', async (req, res) => {
-  const title = req.body.title
+  const id = req.body.id;
+  const title = req.body.title;
+  const desc = req.body.desc;
   // console.log(title);
-  const recipe = await createRecipe(title)
+  const recipe = await createRecipe(id, title, desc)
   res.json(recipe)
 })
 

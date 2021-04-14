@@ -16,6 +16,11 @@
     padding: 4px 12px;
 }
 
+.desc {
+    background-color:transparent;
+    border: none;
+}
+
 #serving-count {
     margin: 0px 6px;
 }
@@ -25,6 +30,14 @@
     color: rgb(255, 255, 255);
     font-size: 14px;
     padding: 3px 10px;
+}
+
+#edit-recipe {
+    background-color: darkgreen;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 3px 10px;
+    margin: 10px;
 }
 
 #rating-label {

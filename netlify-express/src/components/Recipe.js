@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Recipe.css';
 
 class Recipe extends React.Component {
@@ -79,6 +80,10 @@ class Recipe extends React.Component {
         this.state.updateCart(this.state.ingredients);
     }
 
+    populateChangedRecipe() {
+
+    }
+
     render() {
         return (
             <div id='recipe'>
@@ -86,6 +91,12 @@ class Recipe extends React.Component {
                     <h1 id='title'>{this.state.title}</h1>
                     <div id='actions'>
                         <div id='ratings'>
+                            <Link to={'/newRecipe/#' + this.state._id}><button id='edit-recipe'>
+                                Edit Recipe
+                            </button>
+                            </Link>
+                            
+                            &nbsp;
                             <span id='rating'>{this.state.rating}</span> &#9734;
                             &nbsp;
                             <button id='add-to-cart' onClick={() => this.addToCart()}>Add to Cart</button>

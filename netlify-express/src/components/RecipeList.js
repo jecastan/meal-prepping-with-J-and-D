@@ -16,14 +16,14 @@ class RecipeList extends React.Component {
         .then(res => res.json())
         .then(data => this.setState({ list: data }))
         
-        document.title = 'Keto Meal Prep'
+        document.title = 'J & D Meal Prep'
     };
 
     render() {
         return (
             <div id='recipe-list'>
-                <h1>Welcome to Jesse and Daly's Keto Recipes</h1>
-                <p>We know eating Keto and meal planning can be challenging.</p>
+                <h1>Welcome to Jesse and Daly's Recipes</h1>
+                <p>We know eating home cooked meals and planning for shopping can be challenging.</p>
                 <p>To help folks out we wanted to share some recipes and help with the meal prep shopping list</p>
 
                 <h2>Recipes</h2>

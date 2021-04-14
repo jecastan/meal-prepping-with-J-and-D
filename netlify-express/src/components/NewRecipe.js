@@ -5,22 +5,30 @@ class NewRecipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: 'title'
+            
         }
     }
 
-    defineRecipe () {
-        const newRecipeTitle = document.getElementById('recipe-title').value;
-        this.setState({title: newRecipeTitle});
-        //console.log(this.state.title)
+    componentDidMount() {
+        const id = window.location.hash.substr(1);
+        fetch('/.netlify/functions/server/api/getRecipe/' + id)
+        .then(res => res.json())
+        .then(recipe => {
+            this.setState({...recipe});
+            document.title = recipe.title + ' - Grocery Prep'
+        })
     }
 
     addRecipe () {
-        const newRecipeTitle = this.state.title;
+        const newRecipeId = this.state._id;
+        const newRecipeTitle = document.getElementById('recipe-title').value;
+        const newRecipeDesc = document.getElementById('recipe-desc').value;
         //if (isNaN(newRecipeTitle)) return;
 
         const recipeBody = {
-            title: newRecipeTitle
+            id: newRecipeId,
+            title: newRecipeTitle,
+            desc: newRecipeDesc
         }
     
         fetch('/.netlify/functions/server/api/newRecipe', {
@@ -36,11 +44,18 @@ class NewRecipe extends React.Component {
         return (
         <div id='newRecipe'>
             <div className='headline2'>
-                <h1 id='title'>Add New Recipe</h1>
+                <h1 id='title'>Add/Change Recipe</h1>
             </div>
             <div className='showcase2'>
-                <input type="text" id="recipe-title" onChange={() => this.defineRecipe()} placeholder="Recipe Name" />
-                &nbsp;<button id='add-recipe' onClick={() => this.addRecipe()}>Add!</button>
+                <h2>Recipe Details</h2>
+                <div className='input-fields'>
+                    <p>Recipe Name</p>
+                    <input type="text" id="recipe-title" placeholder="Recipe Name" defaultValue={this.state.title} />
+                    <p>Recipe Description</p>
+                    <input type="text" id="recipe-desc" placeholder="Recipe Description" defaultValue={this.state.desc} />
+                </div>
+                <h2>Instructions</h2>
+                <button id='submit-recipe' onClick={() => this.addRecipe()}>Submit</button>
             </div>
         </div>
         )

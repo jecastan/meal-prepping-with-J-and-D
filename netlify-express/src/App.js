@@ -59,7 +59,7 @@ class App extends React.Component {
               <Cart cart={this.state.cart} emptyCart={this.emptyCart} />
             </main>
           </Route>
-          <Route exact path='/newRecipe'>
+          <Route path='/newRecipe'>
             <main id='browse'>
               <NewRecipe />
               <Cart cart={this.state.cart} emptyCart={this.emptyCart} />

@@ -5,13 +5,31 @@
 }
 
 .showcase2 {
+    height: 100%;
+    margin: 5px 50px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
 
-.showcase > button {
+.input-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+#recipe-title {
+    padding: 4px 12px;
+    margin: 0px 10px 15px;
+}
+
+#recipe-desc {
+    padding: 4px 12px;
+    margin: 0px 10px 15px;
+}
+
+#submit-recipe {
     background-color: darkgreen;
     color: rgb(255, 255, 255);
     font-size: 14px;
     padding: 4px 12px;
+    margin: 10px 10px;
 }
