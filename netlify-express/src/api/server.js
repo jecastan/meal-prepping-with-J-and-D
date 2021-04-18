@@ -58,6 +58,37 @@ const createRecipe = async (id, title, desc) => {
   }
 }
 
+const deleteIngredient = async (id, ingredient_id) => {
+  return await Recipe.findOneAndUpdate(
+      { _id: id },
+      { $pull: {ingredients: {_id: ingredient_id} } }
+  )
+}
+
+const addIngredient = async (id, index) => {
+  return await Recipe.findOneAndUpdate(
+      { _id: id },
+      { $push: {
+          ingredients: {
+            $each: [{ ingredient: '', amount: 1}],
+            $position: index+1
+          } 
+        } 
+      }
+  )
+}
+
+const submitIngredient = async (id, ingredient_id, newAmount, newIngredient) => {
+  return await Recipe.findOneAndUpdate(
+      { '_id': id, 'ingredients._id': ingredient_id },
+      { $set: {
+          'ingredients.$.amount': newAmount,
+          'ingredients.$.ingredient': newIngredient
+          } 
+      } 
+  )
+}
+
 router.get('/api/getRecipes', async (req, res) => {
 
   let recipes = await getRecipes()
@@ -87,6 +118,30 @@ router.post('/api/newRecipe', async (req, res) => {
   const desc = req.body.desc;
   // console.log(title);
   const recipe = await createRecipe(id, title, desc)
+  res.json(recipe)
+})
+
+router.post('/api/modifyRecipe', async (req, res) => {
+  const id = req.body.id;
+  const index = req.body.index;
+  const ingredient_id = req.body.ingredient_id;
+  const newAmount = req.body.newAmount;
+  const newIngredient = req.body.newIngredient;
+  // console.log(title);
+  if (index) {
+    const recipe = await addIngredient(id, index)
+  }
+  else if (ingredient_id) {
+    const recipe = await submitIngredient(id, ingredient_id, newAmount, newIngredient)
+  }
+  res.json(recipe)
+})
+
+router.post('/api/deleteRecipe', async (req, res) => {
+  const id = req.body.id;
+  const ingredient_id = req.body.ingredient_id;
+  // console.log(title);
+  const recipe = await deleteIngredient(id, ingredient_id)
   res.json(recipe)
 })
 

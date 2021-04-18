@@ -138,8 +138,8 @@ class Recipe extends React.Component {
 
                 <h2>Instructions</h2>
                 <ol>
-                    {this.state.instructions && this.state.instructions.map((instrction, count) => {
-                        return <li key={count}>{instrction}</li>;
+                    {this.state.instructions && this.state.instructions.map((instruction, count) => {
+                        return <li key={count}>{instruction}</li>;
                     })}
                 </ol>
             </div>

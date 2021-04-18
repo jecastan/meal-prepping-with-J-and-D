@@ -16,6 +16,31 @@
     flex-direction: column;
 }
 
+.instruction-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.instructions {
+    width: 100%;
+    margin: 5px 10px;
+}
+
+.ingredients {
+    width: 100%;
+    margin: 5px 10px;
+}
+
+.ingredient-amount {
+    width: 25px;
+    margin: 5px 10px;
+}
+
+.ingredient-name {
+    width: 50%;
+    margin: 5px 10px;
+}
+
 #recipe-title {
     padding: 4px 12px;
     margin: 0px 10px 15px;
@@ -27,6 +52,30 @@
 }
 
 #submit-recipe {
+    background-color: darkgreen;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 4px 12px;
+    margin: 10px 10px;
+}
+
+#add {
+    background-color: rgb(20, 3, 180);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 4px 12px;
+    margin: 10px 10px;
+}
+
+#delete {
+    background-color: rgb(211, 8, 8);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 4px 12px;
+    margin: 10px 10px;
+}
+
+#submit {
     background-color: darkgreen;
     color: rgb(255, 255, 255);
     font-size: 14px;
