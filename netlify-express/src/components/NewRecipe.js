@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './NewRecipe.css';
 
 class NewRecipe extends React.Component {
@@ -19,16 +20,23 @@ class NewRecipe extends React.Component {
         })
     }
 
+    selectedCatagory () {
+        const selected = document.getElementById('select-catagory').value;
+        this.setState({catagory: selected})
+    }
+
     addRecipe () {
         const newRecipeId = this.state._id;
         const newRecipeTitle = document.getElementById('recipe-title').value;
         const newRecipeDesc = document.getElementById('recipe-desc').value;
+        const newRecipeCatagory = document.getElementById('select-catagory').value;
         //if (isNaN(newRecipeTitle)) return;
 
         const recipeBody = {
             id: newRecipeId,
             title: newRecipeTitle,
-            desc: newRecipeDesc
+            desc: newRecipeDesc,
+            catagory: newRecipeCatagory
         }
     
         fetch('/.netlify/functions/server/api/newRecipe', {
@@ -39,7 +47,9 @@ class NewRecipe extends React.Component {
             body: JSON.stringify(recipeBody)
         });
 
-        window.location.reload();
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
     }
 
     deleteIngredient (id) {
@@ -58,15 +68,20 @@ class NewRecipe extends React.Component {
             body: JSON.stringify(recipeBody)
         });
 
-        window.location.reload();
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
     }
 
     addIngredient (count) {
         const newRecipeId = this.state._id;
 
+        console.log(count)
+
         const recipeBody = {
             id: newRecipeId,
-            index: count
+            index: count,
+            change: 'add'
         }
 
         fetch('/.netlify/functions/server/api/modifyRecipe', {
@@ -77,7 +92,9 @@ class NewRecipe extends React.Component {
             body: JSON.stringify(recipeBody)
         });
 
-        window.location.reload();
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
     }
 
     submitIngredient (ingredient_id, count) {
@@ -100,34 +117,77 @@ class NewRecipe extends React.Component {
             body: JSON.stringify(recipeBody)
         });
 
-        window.location.reload();
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
     }
 
     deleteInstruction (instruction) {
         const newRecipeId = this.state._id;
-        const deletedInstruction = instruction;
-        //if (isNaN(newRecipeTitle)) return;
 
         const recipeBody = {
             id: newRecipeId,
-            instruction: deletedInstruction,
+            instruction: instruction,
+            change: 'delete'
         }
-    
-        fetch('/.netlify/functions/server/api/newRecipe', {
+
+        fetch('/.netlify/functions/server/api/modifyInstructions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(recipeBody)
         });
-        //let newInstructions = [...this.state.instructions];
-        //console.log(newInstructions);
-        //newInstructions.splice(index, 1);
-        //console.log(newInstructions);
-        this.setState({instructions: []})
-        console.log(this.state.instructions.length)
-        //this.setState({instructions: newInstructions});
-        //console.log(this.state.instructions)
+
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
+    }
+
+    addInstruction (count) {
+        const newRecipeId = this.state._id;
+
+        const recipeBody = {
+            id: newRecipeId,
+            index: count,
+            change: 'add'
+        }
+
+        fetch('/.netlify/functions/server/api/modifyInstructions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(recipeBody)
+        });
+
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
+    }
+
+    submitInstruction (instruction, count) {
+        const newRecipeId = this.state._id;
+        const newInstruction = document.getElementById('instruction'+count).value;
+
+        const recipeBody = {
+            id: newRecipeId,
+            instruction: instruction,
+            newInstruction: newInstruction,
+            change: 'submit'
+        }
+
+        fetch('/.netlify/functions/server/api/modifyInstructions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(recipeBody)
+        });
+
+        setTimeout(function () {
+            document.location.reload();
+        }, 250);
     }
     
     render () {
@@ -143,6 +203,15 @@ class NewRecipe extends React.Component {
                     <input type="text" id="recipe-title" placeholder="Recipe Name" defaultValue={this.state.title} />
                     <p>Recipe Description</p>
                     <input type="text" id="recipe-desc" placeholder="Recipe Description" defaultValue={this.state.desc} />
+                    <p>Catgory</p>
+                    <select id='select-catagory' onChange={() => this.selectedCatagory()} value={this.state.catagory}>
+                        <option value={this.state.catagory} disabled hidden>{this.state.catagory}</option>
+                        <option value='Breakfast'>Breakfast</option>
+                        <option value='Lunch'>Lunch</option>
+                        <option value='Dinner'>Dinner</option>
+                        <option value='Snacks'>Snacks</option>
+                        <option value='Sauces'>Sauces</option>
+                    </select>
                 </div>
                 <button id='submit-recipe' onClick={() => this.addRecipe()}>Submit</button>
                 <h2>Ingredients</h2>
@@ -152,7 +221,7 @@ class NewRecipe extends React.Component {
                                 <input id={'amount'+count} className='ingredient-amount' defaultValue={item.amount} />
                                 <input id={'ingredient'+count} className='ingredient-name' defaultValue={item.ingredient} />
                                 <button type='button' id='delete' onClick={() => this.deleteIngredient(item._id)}>Delete</button>
-                                <button key={count} type='button' id='add' onClick={() => this.addIngredient(count)}>Add</button>
+                                <button type='button' id='add' onClick={() => this.addIngredient(count)}>Add</button>
                                 <button type='button' id='submit' onClick={() => this.submitIngredient(item._id, count)}>Submit</button>
                             </li>;
                         })
@@ -162,13 +231,17 @@ class NewRecipe extends React.Component {
                 <ol >
                     {this.state.instructions && this.state.instructions.map((instruction, count) => {
                         return <li className='instruction-list'>
-                            <input key={count} type="text" className='instructions' defaultValue={instruction} />
+                            <input id={'instruction'+count} type="text" className='instructions' defaultValue={instruction} />
                             <button type='button' id='delete' onClick={() => this.deleteInstruction(instruction)}>Delete</button>
-                            <button type='button' id='add' onClick={() => this.addInstruction()}>Add</button>
+                            <button type='button' id='add' onClick={() => this.addInstruction(count)}>Add</button>
+                            <button type='button' id='submit' onClick={() => this.submitInstruction(instruction, count)}>Submit</button>
                         </li>;
                     })}
                 </ol>
-                
+                <Link to={'/recipe/#' + this.state._id}><button id='return-recipe'>
+                        Go to Recipe Page
+                    </button>
+                </Link>
             </div>
         </div>
         )

@@ -4,6 +4,7 @@ const recipeSchema = new mongoose.Schema({
   // an ID attribute will automatically be added on insert
 	title: String,
   desc: String,
+  catagory: String,
   picture: String,
   ratings: [Number],
   servings: Number,
