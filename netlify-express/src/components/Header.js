@@ -14,7 +14,6 @@ function Header() {
       <nav>
         <Link to='/'>Home</Link>
         <Link to='/newRecipe' onClick={ refreshPage }>New Recipe</Link>
-        <Link to='/about'>About the Chefs</Link>
       </nav>
     </header>
   );

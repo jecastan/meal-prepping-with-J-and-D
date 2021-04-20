@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // API calls
 const getRecipes = async () => {
-  return await Recipe.find({}, '_id title')
+  return await Recipe.find({}, '_id title catagory')
 }
 
 const getRecipe = async id => {

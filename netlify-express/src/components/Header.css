@@ -9,6 +9,8 @@ header {
 }
 
 nav > a {
-    color: #F2CC8F;
+    color: #FFF;
     margin: 0 12px;
+    font-size: 20px;
+    font-weight:bold;
 }
